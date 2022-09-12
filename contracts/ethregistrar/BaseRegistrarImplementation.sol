@@ -22,6 +22,7 @@ contract BaseRegistrarImplementation is ERC721, BaseRegistrar {
         );
     bytes4 private constant RECLAIM_ID =
         bytes4(keccak256("reclaim(uint256,address)"));
+    string public baseURI;
 
     constructor(ENS _ens, bytes32 _baseNode) ERC721("", "") {
         ens = _ens;
@@ -36,6 +37,16 @@ contract BaseRegistrarImplementation is ERC721, BaseRegistrar {
     modifier onlyController() {
         require(controllers[msg.sender]);
         _;
+    }
+
+    // Overrides ERC721 BaseURI function
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
+
+    // Allows to set a new BaseURI
+    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+        baseURI = _newBaseURI;
     }
 
     // Authorises a controller, who can register domains.
