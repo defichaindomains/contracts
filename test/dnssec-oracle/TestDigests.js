@@ -1,29 +1,17 @@
 const digests = require('./data/digests');
-const { expectRevert } = require('@openzeppelin/test-helpers');
 
-digests.forEach(function(testcase) {
-  contract(testcase.digest, function(accounts) {
-    const algorithm = artifacts.require('./digests/' + testcase.digest + '.sol');
+digests.forEach(function([digest, valid, valid2, invalid]) {
+  contract(digest, function(accounts) {
+    const algorithm = artifacts.require('./digests/' + digest + '.sol');
 
     it('should return true for valid hashes', async function() {
       var instance = await algorithm.deployed();
-      await Promise.all(testcase.valids.map(async function([text, digest]) {
-        assert.equal(await instance.verify(ethers.utils.hexlify(ethers.utils.toUtf8Bytes(text)), digest), true);
-      }));
+      assert.equal(await instance.verify(valid[0], valid[1]), true); // @todo need to convert foo to bytes
     });
 
     it('should return false for invalid hashes', async function() {
       var instance = await algorithm.deployed();
-      await Promise.all(testcase.invalids.map(async function([text, digest]) {
-        assert.equal(await instance.verify(ethers.utils.hexlify(ethers.utils.toUtf8Bytes(text)), digest), false);
-      }));
-    });
-
-    it('should throw an error for hashes of the wrong form', async function() {
-      var instance = await algorithm.deployed();
-      await Promise.all(testcase.errors.map(async function([text, digest]) {
-        await expectRevert.unspecified(instance.verify(ethers.utils.hexlify(ethers.utils.toUtf8Bytes(text)), digest));
-      }));
+      assert.equal(await instance.verify(invalid[0], invalid[1]), false);
     });
   });
 });

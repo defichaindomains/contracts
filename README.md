@@ -1,6 +1,6 @@
-# ENS
+# .dfi contracts
 
-[![Build Status](https://travis-ci.org/ensdomains/ens-contracts.svg?branch=master)](https://travis-ci.org/ensdomains/ens-contracts)
+This is a fork of [ens contracts](https://github.com/ensdomains/ens-contracts) that allows you to register your name once and own it forever without the need for renewals.
 
 For documentation of the ENS system, see [docs.ens.domains](https://docs.ens.domains/).
 
@@ -12,48 +12,44 @@ This repo doubles as an npm package with the compiled JSON contracts
 import {
   BaseRegistrar,
   BaseRegistrarImplementation,
-  BulkRenewal,
   ENS,
   ENSRegistry,
   ENSRegistryWithFallback,
   ETHRegistrarController,
   FIFSRegistrar,
-  LinearPremiumPriceOracle,
   PriceOracle,
   PublicResolver,
   Resolver,
   ReverseRegistrar,
   StablePriceOracle,
-  TestRegistrar
-} from '@ensdomains/ens-contracts'
+  TestRegistrar,
+} from '@defichaindomains/dfidomains-contracts'
 ```
 
 ## Importing from solidity
 
 ```
 // Registry
-import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ENSRegistry.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ENSRegistryWithFallback.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ReverseRegistrar.sol';
-import '@ensdomains/ens-contracts/contracts/registry/TestRegistrar.sol';
+import 'imperviousinc-forever-contracts/contracts/registry/ENS.sol';
+import 'imperviousinc-forever-contracts/contracts/registry/ENSRegistry.sol';
+import 'imperviousinc-forever-contracts/contracts/registry/ENSRegistryWithFallback.sol';
+import 'imperviousinc-forever-contracts/contracts/registry/ReverseRegistrar.sol';
+import 'imperviousinc-forever-contracts/contracts/registry/TestRegistrar.sol';
 // EthRegistrar
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrarImplementation.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BulkRenewal.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/ETHRegistrarController.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/LinearPremiumPriceOracle.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/PriceOracle.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/StablePriceOracle.sol';
+import 'imperviousinc-forever-contracts/contracts/ethregistrar/BaseRegistrar.sol';
+import 'imperviousinc-forever-contracts/contracts/ethregistrar/BaseRegistrarImplementation.sol';
+import 'imperviousinc-forever-contracts/contracts/ethregistrar/BaseRegistrar.sol';
+import 'imperviousinc-forever-contracts/contracts/ethregistrar/ETHRegistrarController.sol';
+import 'imperviousinc-forever-contracts/contracts/ethregistrar/PriceOracle.sol';
+import 'imperviousinc-forever-contracts/contracts/ethregistrar/StablePriceOracle.sol';
 // Resolvers
-import '@ensdomains/ens-contracts/contracts/resolvers/PublicResolver.sol';
-import '@ensdomains/ens-contracts/contracts/resolvers/Resolver.sol';
+import 'imperviousinc-forever-contracts/contracts/resolvers/PublicResolver.sol';
+import 'imperviousinc-forever-contracts/contracts/resolvers/Resolver.sol';
 ```
 
-##  Accessing to binary file.
+## Accessing to binary file.
 
-If your environment does not have compiler, you can access to the raw hardhat artifacts files at `node_modules/@ensdomains/ens-contracts/artifacts/contracts/${modName}/${contractName}.sol/${contractName}.json`
-
+If your environment does not have compiler, you can access to the raw hardhat artifacts files at `node_modules/@imperviousinc/forever-contracts/artifacts/contracts/${modName}/${contractName}.sol/${contractName}.json`
 
 ## Contracts
 
@@ -81,11 +77,9 @@ Implementation of a simple first-in-first-served registrar, which issues (sub-)d
 
 Implementation of the reverse registrar responsible for managing reverse resolution via the .addr.reverse special-purpose TLD.
 
-
 ### TestRegistrar
 
 Implementation of the `.test` registrar facilitates easy testing of ENS on the Ethereum test networks. Currently deployed on Ropsten network, it provides functionality to instantly claim a domain for test purposes, which expires 28 days after it was claimed.
-
 
 ## EthRegistrar
 
@@ -97,27 +91,26 @@ These contracts were audited by ConsenSys dilligence; the audit report is availa
 
 BaseRegistrar is the contract that owns the TLD in the ENS registry. This contract implements a minimal set of functionality:
 
- - The owner of the registrar may add and remove controllers.
- - Controllers may register new domains and extend the expiry of (renew) existing domains. They can not change the ownership or reduce the expiration time of existing domains.
- - Name owners may transfer ownership to another address.
- - Name owners may reclaim ownership in the ENS registry if they have lost it.
- - Owners of names in the interim registrar may transfer them to the new registrar, during the 1 year transition period. When they do so, their deposit is returned to them in its entirety.
+- The owner of the registrar may add and remove controllers.
+- Controllers may register new domains. They can not change the ownership of existing domains.
+- Name owners may transfer ownership to another address.
+- Name owners may reclaim ownership in the ENS registry if they have lost it.
+- Owners of names in the interim registrar may transfer them to the new registrar, during the 1 year transition period. When they do so, their deposit is returned to them in its entirety.
 
-This separation of concerns provides name owners strong guarantees over continued ownership of their existing names, while still permitting innovation and change in the way names are registered and renewed via the controller mechanism.
+This separation of concerns provides name owners strong guarantees over continued ownership of their existing names, while still permitting innovation and change in the way names are registered via the controller mechanism.
 
 ### EthRegistrarController
 
 EthRegistrarController is the first implementation of a registration controller for the new registrar. This contract implements the following functionality:
 
- - The owner of the registrar may set a price oracle contract, which determines the cost of registrations and renewals based on the name and the desired registration or renewal duration.
- - The owner of the registrar may withdraw any collected funds to their account.
- - Users can register new names using a commit/reveal process and by paying the appropriate registration fee.
- - Users can renew a name by paying the appropriate fee. Any user may renew a domain, not just the name's owner.
+- The owner of the registrar may set a price oracle contract, which determines the cost of registrations based on the name.
+- The owner of the registrar may withdraw any collected funds to their account.
+- Users can register new names using a commit/reveal process and by paying the appropriate registration fee.
 
 The commit/reveal process is used to avoid frontrunning, and operates as follows:
 
- 1. A user commits to a hash, the preimage of which contains the name to be registered and a secret value.
- 2. After a minimum delay period and before the commitment expires, the user calls the register function with the name to register and the secret value from the commitment. If a valid commitment is found and the other preconditions are met, the name is registered.
+1.  A user commits to a hash, the preimage of which contains the name to be registered and a secret value.
+2.  After a minimum delay period and before the commitment expires, the user calls the register function with the name to register and the secret value from the commitment. If a valid commitment is found and the other preconditions are met, the name is registered.
 
 The minimum delay and expiry for commitments exist to prevent miners or other users from effectively frontrunnig registrations.
 
@@ -135,14 +128,14 @@ Resolver implements a general-purpose ENS resolver that is suitable for most sta
 
 PublicResolver includes the following profiles that implements different EIPs.
 
-- ABIResolver = EIP 205 - ABI support (`ABI()`).
-- AddrResolver = EIP 137 - Contract address interface. EIP 2304 - Multicoin support (`addr()`).
-- ContentHashResolver = EIP 1577 - Content hash support (`contenthash()`).
-- InterfaceResolver = EIP 165 - Interface Detection (`supportsInterface()`).
-- NameResolver = EIP 181 - Reverse resolution (`name()`).
-- PubkeyResolver = EIP 619 - SECP256k1 public keys (`pubkey()`).
-- TextResolver = EIP 634 - Text records (`text()`).
-- DNSResolver = Experimental support is available for hosting DNS domains on the Ethereum blockchain via ENS. [The more detail](https://veox-ens.readthedocs.io/en/latest/dns.html) is on the old ENS doc.
+─ ABIResolver = EIP 205 - ABI support (`ABI()`).
+─ AddrResolver = EIP 137 - Contract address interface. EIP 2304 - Multicoin support (`addr()`).
+─ ContentHashResolver = EIP 1577 - Content hash support (`contenthash()`).
+─ InterfaceResolver = EIP 165 - Interface Detection (`supportsInterface()`).
+─ NameResolver = EIP 181 - Reverse resolution (`name()`).
+─ PubkeyResolver = EIP 619 - SECP256k1 public keys (`pubkey()`).
+─ TextResolver = EIP 634 - Text records (`text()`).
+─ DNSResolver = Experimental support is available for hosting DNS domains on the Ethereum blockchain via ENS. [The more detail](https://veox-ens.readthedocs.io/en/latest/dns.html) is on the old ENS doc.
 
 ## Developer guide
 
@@ -153,6 +146,30 @@ git clone https://github.com/ensdomains/ens-contracts
 cd ens-contracts
 yarn
 ```
+
+### Deployment
+
+Update `hardhat.config.js` with your Infura API Key and Deployment account private key.
+
+Specify the `--network` option like ropsten, mainnet, hardhat or localhost.
+
+```
+npx hardhat --network ropsten deploy
+```
+
+Finalize deployment: updates ens registry and connects the controller and public resolver to the registrar.
+
+```
+npx hardhat --network ropsten run scripts/finalize.js
+```
+
+Submit contract code to verify with etherscan (optional)
+
+```
+npx hardhat --network ropsten etherscan-verify --license MIT --api-key etherscan_api_key
+```
+
+Note: Deployed contract info are stored in `deployments` directory, running deploy again will reuse any contracts that were deployed previously.
 
 ### How to run tests
 
@@ -165,7 +182,3 @@ yarn test
 ```
 yarn pub
 ```
-
-### Release flow
-
-Smart contract development tends to take a long release cycle. To prevent unnecesarily dependency conflicts, please create a feature branch (`features/$BRNACH_NAME`) and raise a PR against the feature branch. The feature branch must be merged into master only after the smart contracts are deployed to the Ethereum mainnet.

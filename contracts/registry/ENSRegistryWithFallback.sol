@@ -7,6 +7,7 @@ import "./ENSRegistry.sol";
  * The ENS registry contract.
  */
 contract ENSRegistryWithFallback is ENSRegistry {
+
     ENS public old;
 
     /**
@@ -21,7 +22,7 @@ contract ENSRegistryWithFallback is ENSRegistry {
      * @param node The specified node.
      * @return address of the resolver.
      */
-    function resolver(bytes32 node) public view override returns (address) {
+    function resolver(bytes32 node) public override view returns (address) {
         if (!recordExists(node)) {
             return old.resolver(node);
         }
@@ -34,7 +35,7 @@ contract ENSRegistryWithFallback is ENSRegistry {
      * @param node The specified node.
      * @return address of the owner.
      */
-    function owner(bytes32 node) public view override returns (address) {
+    function owner(bytes32 node) public override view returns (address) {
         if (!recordExists(node)) {
             return old.owner(node);
         }
@@ -47,7 +48,7 @@ contract ENSRegistryWithFallback is ENSRegistry {
      * @param node The specified node.
      * @return ttl of the node.
      */
-    function ttl(bytes32 node) public view override returns (uint64) {
+    function ttl(bytes32 node) public override view returns (uint64) {
         if (!recordExists(node)) {
             return old.ttl(node);
         }

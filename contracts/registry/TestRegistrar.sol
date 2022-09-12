@@ -7,18 +7,18 @@ import "./ENS.sol";
  * expires registrations a fixed period after they're initially claimed.
  */
 contract TestRegistrar {
-    uint256 constant registrationPeriod = 4 weeks;
+    uint constant registrationPeriod = 4 weeks;
 
-    ENS public immutable ens;
-    bytes32 public immutable rootNode;
-    mapping(bytes32 => uint256) public expiryTimes;
+    ENS public ens;
+    bytes32 public rootNode;
+    mapping (bytes32 => uint) public expiryTimes;
 
     /**
      * Constructor.
      * @param ensAddr The address of the ENS registry.
      * @param node The node that this registrar administers.
      */
-    constructor(ENS ensAddr, bytes32 node) {
+    constructor(ENS ensAddr, bytes32 node) public {
         ens = ensAddr;
         rootNode = node;
     }

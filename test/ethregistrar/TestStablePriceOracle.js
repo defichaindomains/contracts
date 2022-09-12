@@ -1,54 +1,38 @@
-const DummyOracle = artifacts.require('./DummyOracle')
-const StablePriceOracle = artifacts.require('./StablePriceOracle')
+const ENS = artifacts.require('./registry/ENSRegistry');
+const BaseRegistrar = artifacts.require('./BaseRegistrarImplementation');
+const DummyOracle = artifacts.require('./DummyOracle');
+const StablePriceOracle = artifacts.require('./StablePriceOracle');
 
-const { expect } = require('chai')
+const namehash = require('eth-ens-namehash');
+const sha3 = require('web3-utils').sha3;
+const toBN = require('web3-utils').toBN;
 
-contract('StablePriceOracle', function(accounts) {
-  let priceOracle
+contract('StablePriceOracle', function (accounts) {
+    let priceOracle;
 
-  before(async () => {
-    // Dummy oracle with 1 ETH == 10 USD
-    var dummyOracle = await DummyOracle.new(1000000000n)
-    // 4 attousd per second for 3 character names, 2 attousd per second for 4 character names,
-    // 1 attousd per second for longer names.
-    priceOracle = await StablePriceOracle.new(dummyOracle.address, [
-      0,
-      0,
-      4,
-      2,
-      1,
-    ])
-  })
+    before(async () => {
+        ens = await ENS.new();
+        registrar = await BaseRegistrar.new(ens.address, namehash.hash('eth'));
 
-  it('should return correct prices', async () => {
-    expect(parseInt((await priceOracle.price('foo', 0, 3600)).base)).to.equal(
-      1440
-    )
-    expect(parseInt((await priceOracle.price('quux', 0, 3600)).base)).to.equal(
-      720
-    )
-    expect(parseInt((await priceOracle.price('fubar', 0, 3600)).base)).to.equal(
-      360
-    )
-    expect(
-      parseInt((await priceOracle.price('foobie', 0, 3600)).base)
-    ).to.equal(360)
-  })
+        // Dummy oracle with 1 ETH == 10 USD
+        var dummyOracle = await DummyOracle.new(toBN(1000000000));
+        // 400 attousd for 3 character names, 200 attousd for 4 character names,
+        // 100 attousd for longer names.
+        priceOracle = await StablePriceOracle.new(dummyOracle.address, [800, 600, 400, 200, 100]);
+    });
 
-  it('should work with larger values', async () => {
-    const dummyOracle2 = await DummyOracle.new(1000000000n)
-    // 4 attousd per second for 3 character names, 2 attousd per second for 4 character names,
-    // 1 attousd per second for longer names.
-    const priceOracle2 = await StablePriceOracle.new(dummyOracle2.address, [
-      0,
-      0,
-      // 1 USD per second!
-      1000000000000000000n,
-      2,
-      1,
-    ])
-    expect((await priceOracle2.price('foo', 0, 86400))[0].toString()).to.equal(
-      '8640000000000000000000'
-    )
-  })
-})
+    it('should return correct prices', async () => {
+        assert.equal((await priceOracle.price("a")).toNumber(), 80);
+        assert.equal((await priceOracle.price("cc")).toNumber(), 60);
+        assert.equal((await priceOracle.price("foo")).toNumber(), 40);
+        assert.equal((await priceOracle.price("quux")).toNumber(), 20);
+        assert.equal((await priceOracle.price("fubar")).toNumber(), 10);
+        assert.equal((await priceOracle.price("foobie")).toNumber(), 10);
+    });
+
+    it('should work with larger values', async () => {
+        // 10 million USD!
+        await priceOracle.setPrices([toBN("10000000000000000000000000")]);
+        assert.equal((await priceOracle.price("foo")).toString(), "1000000000000000000000000");
+    })
+});
