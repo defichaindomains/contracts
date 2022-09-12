@@ -56,6 +56,9 @@ module.exports = {
       tags: ['local'],
     },
   },
+  etherscan: {
+    apiKey: process.env.POLYGONSCAN_API_KEY,
+  },
   namedAccounts: {
     deployer: {
       default: 0,
