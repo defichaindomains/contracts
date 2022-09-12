@@ -5,6 +5,7 @@ require('@nomiclabs/hardhat-solhint')
 require('hardhat-gas-reporter')
 require('hardhat-deploy')
 require('@nomiclabs/hardhat-ethers')
+require('dotenv')
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -23,12 +24,12 @@ task('accounts', 'Prints the list of accounts', async () => {
 const TLD = 'dfi'
 
 // Go to https://www.infura.io
-const INFURA_API_KEY = 'INFURA PROJECT ID'
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY
 
 // Replace this private key with your account private key
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
-const PRIVATE_KEY = ''
+const PRIVATE_KEY = process.env.PRIVATE_KEY
 
 const accountKey = PRIVATE_KEY === '' ? '0x00' : '0x' + PRIVATE_KEY
 
@@ -38,8 +39,8 @@ const accountKey = PRIVATE_KEY === '' ? '0x00' : '0x' + PRIVATE_KEY
 module.exports = {
   tld: TLD,
   networks: {
-    mainnet: {
-      url: 'https://mainnet.infura.io/v3/' + INFURA_API_KEY,
+    mumbai: {
+      url: 'https://polygon-mumbai.g.alchemy.com/v2/' + ALCHEMY_API_KEY,
       usdOracle: null,
       accounts: [accountKey],
       tags: ['production'],
