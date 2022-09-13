@@ -1,0 +1,10 @@
+{
+  "network": "mumbai",
+  "addresses": {
+    "ens": "0xf3F75BdBEA18A237eFc7d9C4cc71bF4E084b17fF",
+    "registrar": "0xedF4f2D0d37A83734B5999BbaCb7cCbDf9a31896",
+    "controller": "0x53292C6fDD63281e353f6B319ec0c1686f99eA54",
+    "resolver": "0xba6F1AF72F2Ff0e82937e7D9d451b648BaB642F2",
+    "reverse": "0xA92441f554BCCB13081911Ab8cA68E76500f9354"
+  }
+}

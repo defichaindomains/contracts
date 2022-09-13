@@ -40,7 +40,8 @@ module.exports = {
   tld: TLD,
   networks: {
     mumbai: {
-      url: 'https://polygon-mumbai.g.alchemy.com/v2/' + ALCHEMY_API_KEY,
+      url:
+        'https://polygon-mumbai.g.alchemy.com/v2/EZKHx-Re3Vy6pE9s2XUIgiJotOsEqUQW',
       usdOracle: null,
       chainId: 80001,
       accounts: [accountKey],
