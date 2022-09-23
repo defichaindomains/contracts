@@ -1,8 +1,6 @@
 # .dfi contracts
 
-This is a fork of [ens contracts](https://github.com/ensdomains/ens-contracts) that allows you to register your name once and own it forever without the need for renewals.
-
-For documentation of the ENS system, see [docs.ens.domains](https://docs.ens.domains/).
+This is a fork of [ens contracts](https://github.com/ensdomains/ens-contracts) that allows you to register your Defichain Domain name once and own it forever without the need for renewals.
 
 ## npm package
 
@@ -23,33 +21,33 @@ import {
   ReverseRegistrar,
   StablePriceOracle,
   TestRegistrar,
-} from '@defichaindomains/dfidomains-contracts'
+} from '@defichaindomains/contracts/build/contracts'
 ```
 
 ## Importing from solidity
 
 ```
 // Registry
-import 'imperviousinc-forever-contracts/contracts/registry/ENS.sol';
-import 'imperviousinc-forever-contracts/contracts/registry/ENSRegistry.sol';
-import 'imperviousinc-forever-contracts/contracts/registry/ENSRegistryWithFallback.sol';
-import 'imperviousinc-forever-contracts/contracts/registry/ReverseRegistrar.sol';
-import 'imperviousinc-forever-contracts/contracts/registry/TestRegistrar.sol';
+import 'defichaindomains-contracts/contracts/registry/ENS.sol';
+import 'defichaindomains-contracts/contracts/registry/ENSRegistry.sol';
+import 'defichaindomains-contracts/contracts/registry/ENSRegistryWithFallback.sol';
+import 'defichaindomains-contracts/contracts/registry/ReverseRegistrar.sol';
+import 'defichaindomains-contracts/contracts/registry/TestRegistrar.sol';
 // EthRegistrar
-import 'imperviousinc-forever-contracts/contracts/ethregistrar/BaseRegistrar.sol';
-import 'imperviousinc-forever-contracts/contracts/ethregistrar/BaseRegistrarImplementation.sol';
-import 'imperviousinc-forever-contracts/contracts/ethregistrar/BaseRegistrar.sol';
-import 'imperviousinc-forever-contracts/contracts/ethregistrar/ETHRegistrarController.sol';
-import 'imperviousinc-forever-contracts/contracts/ethregistrar/PriceOracle.sol';
-import 'imperviousinc-forever-contracts/contracts/ethregistrar/StablePriceOracle.sol';
+import 'defichaindomains-contracts/contracts/ethregistrar/BaseRegistrar.sol';
+import 'defichaindomains-contracts/contracts/ethregistrar/BaseRegistrarImplementation.sol';
+import 'defichaindomains-contracts/contracts/ethregistrar/BaseRegistrar.sol';
+import 'defichaindomains-contracts/contracts/ethregistrar/ETHRegistrarController.sol';
+import 'defichaindomains-contracts/contracts/ethregistrar/PriceOracle.sol';
+import 'defichaindomains-contracts/contracts/ethregistrar/StablePriceOracle.sol';
 // Resolvers
-import 'imperviousinc-forever-contracts/contracts/resolvers/PublicResolver.sol';
-import 'imperviousinc-forever-contracts/contracts/resolvers/Resolver.sol';
+import 'defichaindomains-contracts/contracts/resolvers/PublicResolver.sol';
+import 'defichaindomains-contracts/contracts/resolvers/Resolver.sol';
 ```
 
 ## Accessing to binary file.
 
-If your environment does not have compiler, you can access to the raw hardhat artifacts files at `node_modules/@imperviousinc/forever-contracts/artifacts/contracts/${modName}/${contractName}.sol/${contractName}.json`
+If your environment does not have compiler, you can access to the raw hardhat artifacts files at `node_modules/@defichaindomains/contracts/artifacts/contracts/${modName}/${contractName}.sol/${contractName}.json`
 
 ## Contracts
 
@@ -65,10 +63,6 @@ Interface of the ENS Registry.
 
 Implementation of the ENS Registry, the central contract used to look up resolvers and owners for domains.
 
-### ENSRegistryWithFallback
-
-The new impelmentation of the ENS Registry after [the 2020 ENS Registry Migration](https://docs.ens.domains/ens-migration-february-2020/technical-description#new-ens-deployment).
-
 ### FIFSRegistrar
 
 Implementation of a simple first-in-first-served registrar, which issues (sub-)domains to the first account to request them.
@@ -83,7 +77,7 @@ Implementation of the `.test` registrar facilitates easy testing of ENS on the E
 
 ## EthRegistrar
 
-Implements an [ENS](https://ens.domains/) registrar intended for the .eth TLD.
+Implements an [ENS](https://ens.domains/) registrar intended for the .dfi TLD.
 
 These contracts were audited by ConsenSys dilligence; the audit report is available [here](https://github.com/ConsenSys/ens-audit-report-2019-02).
 
@@ -142,8 +136,8 @@ PublicResolver includes the following profiles that implements different EIPs.
 ### How to setup
 
 ```
-git clone https://github.com/ensdomains/ens-contracts
-cd ens-contracts
+git clone https://github.com/defichaindomains/contracts
+cd contracts
 yarn
 ```
 
@@ -151,31 +145,19 @@ yarn
 
 Update `hardhat.config.js` with your Infura API Key and Deployment account private key.
 
-Specify the `--network` option like ropsten, mainnet, hardhat or localhost.
+Specify the `--network` option.
 
 ```
-npx hardhat --network ropsten deploy
+npx hardhat --network mumbai deploy
 ```
 
 Finalize deployment: updates ens registry and connects the controller and public resolver to the registrar.
 
 ```
-npx hardhat --network ropsten run scripts/finalize.js
-```
-
-Submit contract code to verify with etherscan (optional)
-
-```
-npx hardhat --network ropsten etherscan-verify --license MIT --api-key etherscan_api_key
+npx hardhat --network mumbai run scripts/finalize.js
 ```
 
 Note: Deployed contract info are stored in `deployments` directory, running deploy again will reuse any contracts that were deployed previously.
-
-### How to run tests
-
-```
-yarn test
-```
 
 ### How to publish
 
