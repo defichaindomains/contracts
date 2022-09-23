@@ -24,9 +24,6 @@ task('accounts', 'Prints the list of accounts', async () => {
 // TLD to use in deployment
 const TLD = 'dfi'
 
-// Go to https://www.infura.io
-const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY
-
 // Replace this private key with your account private key
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
@@ -41,8 +38,7 @@ module.exports = {
   tld: TLD,
   networks: {
     mumbai: {
-      url:
-        'https://polygon-mumbai.g.alchemy.com/v2/EZKHx-Re3Vy6pE9s2XUIgiJotOsEqUQW',
+      url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
       usdOracle: null,
       chainId: 80001,
       accounts: [accountKey],
