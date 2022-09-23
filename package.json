@@ -1,6 +1,6 @@
 {
-  "name": "@madeinusmate/defichaindomains-contracts",
-  "version": "0.0.5",
+  "name": "@defichaindomains/contracts",
+  "version": "0.0.1",
   "description": "Defichain Domains contracts",
   "scripts": {
     "test": "npx hardhat test",
