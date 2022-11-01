@@ -1,8 +1,8 @@
 const hre = require('hardhat')
 
 module.exports = [
-  '0xedF4f2D0d37A83734B5999BbaCb7cCbDf9a31896',
-  '0x8dba2fF44Da53F4E278016b4e1dba5EC8b9f0d4D',
+  '0xE4E073Affc03fC569a1649a3B0E9fDF6e2B57750',
+  '0x3939aaD0a32c248F0300478cf937aE033f864413',
   60,
   86400,
   3,

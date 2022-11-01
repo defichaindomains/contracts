@@ -1,6 +1,6 @@
 const hre = require('hardhat')
 
 module.exports = [
-  '0xf3f75bdbea18a237efc7d9c4cc71bf4e084b17ff',
+  '0x0277015E7cBa544a8acd4a3dB0331A74807e12ea',
   hre.ethers.utils.namehash('dfi'),
 ]

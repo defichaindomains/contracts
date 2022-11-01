@@ -4,7 +4,7 @@ import "../ResolverBase.sol";
 abstract contract AddrResolver is ResolverBase {
     bytes4 private constant ADDR_INTERFACE_ID = 0x3b3b57de;
     bytes4 private constant ADDRESS_INTERFACE_ID = 0xf1cb7e06;
-    uint256 private constant COIN_TYPE_DFI = 1129;
+    uint256 private constant COIN_TYPE_DFI = 988;
 
     event AddrChanged(bytes32 indexed node, address a);
     event AddressChanged(

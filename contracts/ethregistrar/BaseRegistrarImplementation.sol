@@ -1,11 +1,11 @@
 pragma solidity >=0.8.4;
 
 import "../registry/ENS.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 import "./BaseRegistrar.sol";
 
-contract BaseRegistrarImplementation is ERC721, BaseRegistrar {
+contract BaseRegistrarImplementation is ERC721Enumerable, BaseRegistrar {
     bytes4 private constant INTERFACE_META_ID =
         bytes4(keccak256("supportsInterface(bytes4)"));
     bytes4 private constant ERC721_ID =
@@ -39,7 +39,7 @@ contract BaseRegistrarImplementation is ERC721, BaseRegistrar {
         _;
     }
 
-    // Overrides ERC721 BaseURI function
+    // Overrides ERC721Enumerable BaseURI function
     function _baseURI() internal view virtual override returns (string memory) {
         return baseURI;
     }
@@ -116,7 +116,7 @@ contract BaseRegistrarImplementation is ERC721, BaseRegistrar {
     function supportsInterface(bytes4 interfaceID)
         public
         view
-        override(ERC721, IERC165)
+        override(ERC721Enumerable, IERC165)
         returns (bool)
     {
         return

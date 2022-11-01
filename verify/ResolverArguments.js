@@ -1,3 +1,3 @@
 const hre = require('hardhat')
 
-module.exports = ['0xf3F75BdBEA18A237eFc7d9C4cc71bF4E084b17fF']
+module.exports = ['0x0277015E7cBa544a8acd4a3dB0331A74807e12ea']
