@@ -8,4 +8,4 @@ const prices = [
   hre.ethers.BigNumber.from('100000000000000000000'),
 ]
 
-module.exports = ['0xb835C0C3Ea8b132b55fddf8988366b89f13599Dc', prices]
+module.exports = ['0xD378892F25c516f9074Ec6801c06710508C53FB2', prices]
