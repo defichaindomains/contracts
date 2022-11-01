@@ -67,6 +67,8 @@ module.exports = {
     path: './build/contracts',
     clear: true,
     flat: true,
+    runOnCompile: true,
+    except: ['Ownable', 'NameResolver'],
     spacing: 2,
   },
   solidity: {
