@@ -4,7 +4,7 @@ import "../ResolverBase.sol";
 abstract contract AddrResolver is ResolverBase {
     bytes4 private constant ADDR_INTERFACE_ID = 0x3b3b57de;
     bytes4 private constant ADDRESS_INTERFACE_ID = 0xf1cb7e06;
-    uint256 private constant COIN_TYPE_DFI = 988;
+    uint256 private constant COIN_TYPE_DFI_METACHAIN = 2147484636;
 
     event AddrChanged(bytes32 indexed node, address a);
     event AddressChanged(
@@ -22,7 +22,7 @@ abstract contract AddrResolver is ResolverBase {
      * @param a The address to set.
      */
     function setAddr(bytes32 node, address a) external authorised(node) {
-        setAddr(node, COIN_TYPE_DFI, addressToBytes(a));
+        setAddr(node, COIN_TYPE_DFI_METACHAIN, addressToBytes(a));
     }
 
     /**
@@ -31,7 +31,7 @@ abstract contract AddrResolver is ResolverBase {
      * @return The associated address.
      */
     function addr(bytes32 node) public view returns (address payable) {
-        bytes memory a = addr(node, COIN_TYPE_DFI);
+        bytes memory a = addr(node, COIN_TYPE_DFI_METACHAIN);
         if (a.length == 0) {
             return payable(0);
         }
@@ -44,7 +44,7 @@ abstract contract AddrResolver is ResolverBase {
         bytes memory a
     ) public authorised(node) {
         emit AddressChanged(node, coinType, a);
-        if (coinType == COIN_TYPE_DFI) {
+        if (coinType == COIN_TYPE_DFI_METACHAIN) {
             emit AddrChanged(node, bytesToAddress(a));
         }
         _addresses[node][coinType] = a;
