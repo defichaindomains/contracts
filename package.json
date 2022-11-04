@@ -1,6 +1,6 @@
 {
   "name": "@defichaindomains/contracts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Defichain Domains contracts",
   "scripts": {
     "test": "npx hardhat test",
