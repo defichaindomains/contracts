@@ -33,54 +33,54 @@ async function main() {
   const stableOracle = await getContract('StablePriceOracle')
   const dummyOracle = await getContract('DummyOracle')
 
-  // try {
-  //   console.log('verifying Registry Contract ...')
+  try {
+    console.log('verifying Registry Contract ...')
 
-  //   await hre.run('verify:verify', {
-  //     address: ens.address,
-  //   })
-  // } catch (error) {
-  //   //console.log(error)
-  // }
+    await hre.run('verify:verify', {
+      address: ens.address,
+    })
+  } catch (error) {
+    //console.log(error)
+  }
 
-  // try {
-  //   console.log('verifying Registrar Contract ...')
+  try {
+    console.log('verifying Registrar Contract ...')
 
-  //   await hre.run('verify:verify', {
-  //     address: registrar.address,
-  //     constructorArguments: [ens.address, hre.ethers.utils.namehash('dfi')],
-  //   })
-  // } catch (error) {
-  //   //console.log(error)
-  // }
+    await hre.run('verify:verify', {
+      address: registrar.address,
+      constructorArguments: [ens.address, hre.ethers.utils.namehash('dfi')],
+    })
+  } catch (error) {
+    //console.log(error)
+  }
 
-  // try {
-  //   console.log('verifying Reverse Registrar Contract ...')
+  try {
+    console.log('verifying Reverse Registrar Contract ...')
 
-  //   await hre.run('verify:verify', {
-  //     address: reverse.address,
-  //     constructorArguments: [ens.address, resolver.address],
-  //   })
-  // } catch (error) {
-  //   //console.log(error)
-  // }
+    await hre.run('verify:verify', {
+      address: reverse.address,
+      constructorArguments: [ens.address, resolver.address],
+    })
+  } catch (error) {
+    //console.log(error)
+  }
 
-  // try {
-  //   console.log('verifying Controller Contract ...')
+  try {
+    console.log('verifying Controller Contract ...')
 
-  //   await hre.run('verify:verify', {
-  //     address: controller.address,
-  //     constructorArguments: [
-  //       registrar.address,
-  //       stableOracle.address,
-  //       60,
-  //       86400,
-  //       3,
-  //     ],
-  //   })
-  // } catch (error) {
-  //   //console.log(error)
-  // }
+    await hre.run('verify:verify', {
+      address: controller.address,
+      constructorArguments: [
+        registrar.address,
+        stableOracle.address,
+        60,
+        86400,
+        3,
+      ],
+    })
+  } catch (error) {
+    //console.log(error)
+  }
 
   try {
     console.log('verifying Public Resolver ...')
@@ -90,38 +90,38 @@ async function main() {
       constructorArguments: [ens.address],
     })
   } catch (error) {
+    console.log(error)
+  }
+
+  try {
+    console.log('verifying Dummy Oracle ...')
+
+    await hre.run('verify:verify', {
+      address: dummyOracle.address,
+      constructorArguments: [ethers.BigNumber.from('100000000')],
+    })
+  } catch (error) {
     //console.log(error)
   }
 
-  // try {
-  //   console.log('verifying Dummy Oracle ...')
+  try {
+    console.log('verifying Stable Oracle ...')
 
-  //   await hre.run('verify:verify', {
-  //     address: dummyOracle.address,
-  //     constructorArguments: [ethers.BigNumber.from('100000000')],
-  //   })
-  // } catch (error) {
-  //   //console.log(error)
-  // }
+    const prices = [
+      ethers.BigNumber.from('5000000000000000000000'),
+      ethers.BigNumber.from('2500000000000000000000'),
+      ethers.BigNumber.from('1000000000000000000000'),
+      ethers.BigNumber.from('500000000000000000000'),
+      ethers.BigNumber.from('100000000000000000000'),
+    ]
 
-  // try {
-  //   console.log('verifying Stable Oracle ...')
-
-  //   const prices = [
-  //     ethers.BigNumber.from('5000000000000000000000'),
-  //     ethers.BigNumber.from('2500000000000000000000'),
-  //     ethers.BigNumber.from('1000000000000000000000'),
-  //     ethers.BigNumber.from('500000000000000000000'),
-  //     ethers.BigNumber.from('100000000000000000000'),
-  //   ]
-
-  //   await hre.run('verify:verify', {
-  //     address: stableOracle.address,
-  //     constructorArguments: [dummyOracle.address, prices],
-  //   })
-  // } catch (error) {
-  //   //console.log(error)
-  // }
+    await hre.run('verify:verify', {
+      address: stableOracle.address,
+      constructorArguments: [dummyOracle.address, prices],
+    })
+  } catch (error) {
+    //console.log(error)
+  }
 
   console.log('Done!')
 }
