@@ -1,8 +1,8 @@
 const hre = require('hardhat')
 
 module.exports = [
-  '0xE4E073Affc03fC569a1649a3B0E9fDF6e2B57750',
-  '0x3939aaD0a32c248F0300478cf937aE033f864413',
+  '0x04AE965f4a9079A6ED02309373AFcbf841170c51', // registrar address
+  '0x8201EF659f351Bf5cC45A22dBb1f11423F306E6d', // stable oracle address
   60,
   86400,
   3,

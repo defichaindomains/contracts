@@ -1,6 +1,6 @@
 const hre = require('hardhat')
 
 module.exports = [
-  '0x0277015E7cBa544a8acd4a3dB0331A74807e12ea',
+  '0xCa33092AE06D170791C1d0E1177e884Db8b1eEBF', // ens registry address
   hre.ethers.utils.namehash('dfi'),
 ]
