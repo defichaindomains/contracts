@@ -1,5 +1,5 @@
 {
-  "network": "mumbai",
+  "network": "DMC_floppynet",
   "addresses": {
     "ens": "0xCa33092AE06D170791C1d0E1177e884Db8b1eEBF",
     "registrar": "0x04AE965f4a9079A6ED02309373AFcbf841170c51",

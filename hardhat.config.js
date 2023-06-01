@@ -27,7 +27,7 @@ const TLD = 'dfi'
 // Replace this private key with your account private key
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
-const PRIVATE_KEY = process.env.PRIVATE_KEY
+const PRIVATE_KEY = 'PrivateKEY'
 
 const accountKey = PRIVATE_KEY === '' ? '0x00' : '0x' + PRIVATE_KEY
 
@@ -37,6 +37,13 @@ const accountKey = PRIVATE_KEY === '' ? '0x00' : '0x' + PRIVATE_KEY
 module.exports = {
   tld: TLD,
   networks: {
+    DMC_floppynet: {
+      url: `http://35.187.53.161:20551`,
+      usdOracle: null,
+      chainId: 1132,
+      accounts: [accountKey],
+      tags: ['production'],
+    },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/EZKHx-Re3Vy6pE9s2XUIgiJotOsEqUQW`,
       usdOracle: null,
