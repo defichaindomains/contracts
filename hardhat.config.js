@@ -38,6 +38,13 @@ module.exports = {
   tld: TLD,
   networks: {
     DMC_testnet: {
+      url: `http://35.195.186.78:18551`,
+      usdOracle: null,
+      chainId: 1131,
+      accounts: [accountKey],
+      tags: ['production'],
+    },
+    DMC_changi: {
       url: `https://testnet-dmc.mydefichain.com:20551`,
       usdOracle: null,
       chainId: 1133,
