@@ -1,12 +1,12 @@
 {
-  "network": "mumbai",
+  "network": "DMC_testnet",
   "addresses": {
-    "ens": "0xc42406719Ed4A088578D60BB7970AA8716aFA427",
-    "registrar": "0xc0f2C1a6AFc852D3D18b7b499Dad5955f684Bd84",
-    "controller": "0xE80e21DD234E947286f130E885abe6592C10ff41",
-    "resolver": "0x1C8004e251A1680E3DFaC358acFf172aD21FC576",
-    "reverse": "0x03E057d4d0A10032Db799a8C33ac786EF05E7257",
-    "stableOracle": "0x682f6747733Ef731bd5a2184dE738B656769bfA0",
-    "dummyOracle": "0x90a361468c715aC8CAe9E4BF98ec4609a5c24d0d"
+    "ens": "0x90eeA5122Acc8089Bc43E75c336636699CcaE9EC",
+    "registrar": "0xD9899652B10Ba327ec86EE28248beaae89623302",
+    "controller": "0xa3f729f1CFf578aD071c0a2543fC2CA63D448DAA",
+    "resolver": "0x13eB2DA2cDF63E2258544212B5d4543cf6611dEC",
+    "reverse": "0xBaB168195f66FbB3b7F8d6B47B843A73c8B26686",
+    "stableOracle": "0x3A52782d25e3F864c4D6d49a3443b71dc811E14D",
+    "dummyOracle": "0xdcd0F72F7670B6da6CDb577F8597b059117193dD"
   }
 }

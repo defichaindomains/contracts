@@ -27,7 +27,7 @@ const TLD = 'dfi'
 // Replace this private key with your account private key
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
-const PRIVATE_KEY = ''
+const PRIVATE_KEY = process.env.PRIVATE_KEY
 
 const accountKey = PRIVATE_KEY === '' ? '0x00' : '0x' + PRIVATE_KEY
 
@@ -38,23 +38,9 @@ module.exports = {
   tld: TLD,
   networks: {
     DMC_testnet: {
-      url: `http://35.195.186.78:18551`,
+      url: `https://eth.testnet.ocean.jellyfishsdk.com/`,
       usdOracle: null,
       chainId: 1131,
-      accounts: [accountKey],
-      tags: ['production'],
-    },
-    DMC_changi: {
-      url: `https://testnet-dmc.mydefichain.com:20551`,
-      usdOracle: null,
-      chainId: 1133,
-      accounts: [accountKey],
-      tags: ['production'],
-    },
-    DMC_floppynet: {
-      url: `http://35.187.53.161:20551`,
-      usdOracle: null,
-      chainId: 1132,
       accounts: [accountKey],
       tags: ['production'],
     },
