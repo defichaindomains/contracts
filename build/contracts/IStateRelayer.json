@@ -1,0 +1,176 @@
+[
+  {
+    "inputs": [],
+    "name": "getDexInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_pair",
+        "type": "string"
+      }
+    ],
+    "name": "getDexPairInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "primaryTokenPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "volume24H",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalLiquidity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "APR",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "firstTokenBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "secondTokenBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rewards",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "commissions",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IStateRelayer.DEXInfo",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getMasterNodeInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "totalValueLockedInMasterNodes",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "zeroYearLockedNoDecimals",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fiveYearLockedNoDecimals",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tenYearLockedNoDecimals",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IStateRelayer.MasterNodeInformation",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getVaultInfo",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "noOfVaultsNoDecimals",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalLoanValue",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalCollateralValue",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalCollateralizationRatio",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "activeAuctionsNoDecimals",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IStateRelayer.VaultGeneralInformation",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

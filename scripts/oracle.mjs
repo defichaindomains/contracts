@@ -1,0 +1,747 @@
+// import { IStateRelayer__factory } from '../../generated'
+import { ethers } from 'ethers'
+
+const abi = [
+  {
+    inputs: [],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
+    inputs: [],
+    name: 'DEX_AND_DEXINFO_NOT_HAVE_THE_SAME_LENGTH',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'ERROR_IN_LOW_LEVEL_CALLS',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'NOT_BOT_ROLE_OR_NOT_IN_BATCH_CALL_IN_BOT',
+    type: 'error',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'previousAdmin',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'newAdmin',
+        type: 'address',
+      },
+    ],
+    name: 'AdminChanged',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'beacon',
+        type: 'address',
+      },
+    ],
+    name: 'BeaconUpgraded',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint8',
+        name: 'version',
+        type: 'uint8',
+      },
+    ],
+    name: 'Initialized',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'previousAdminRole',
+        type: 'bytes32',
+      },
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'newAdminRole',
+        type: 'bytes32',
+      },
+    ],
+    name: 'RoleAdminChanged',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address',
+      },
+    ],
+    name: 'RoleGranted',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address',
+      },
+    ],
+    name: 'RoleRevoked',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: 'UpdateDEXInfo',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: 'UpdateMasterNodeInformation',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: 'UpdateVaultGeneralInformation',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'implementation',
+        type: 'address',
+      },
+    ],
+    name: 'Upgraded',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'BOT_ROLE',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'DECIMALS',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes[]',
+        name: 'funcCalls',
+        type: 'bytes[]',
+      },
+    ],
+    name: 'batchCallByBot',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getDexInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_pair',
+        type: 'string',
+      },
+    ],
+    name: 'getDexPairInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'primaryTokenPrice',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'volume24H',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalLiquidity',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'APR',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'firstTokenBalance',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'secondTokenBalance',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'rewards',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'commissions',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct IStateRelayer.DEXInfo',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getMasterNodeInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'totalValueLockedInMasterNodes',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'zeroYearLockedNoDecimals',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'fiveYearLockedNoDecimals',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'tenYearLockedNoDecimals',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct IStateRelayer.MasterNodeInformation',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+    ],
+    name: 'getRoleAdmin',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getVaultInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'noOfVaultsNoDecimals',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalLoanValue',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalCollateralValue',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalCollateralizationRatio',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'activeAuctionsNoDecimals',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct IStateRelayer.VaultGeneralInformation',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'hasRole',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_admin',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_bot',
+        type: 'address',
+      },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes4',
+        name: 'interfaceId',
+        type: 'bytes4',
+      },
+    ],
+    name: 'supportsInterface',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string[]',
+        name: '_dex',
+        type: 'string[]',
+      },
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'primaryTokenPrice',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'volume24H',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalLiquidity',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'APR',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'firstTokenBalance',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'secondTokenBalance',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'rewards',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'commissions',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct IStateRelayer.DEXInfo[]',
+        name: '_dexInfo',
+        type: 'tuple[]',
+      },
+      {
+        internalType: 'uint256',
+        name: '_totalValueLocked',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: '_total24HVolume',
+        type: 'uint256',
+      },
+    ],
+    name: 'updateDEXInfo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'totalValueLockedInMasterNodes',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'zeroYearLockedNoDecimals',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'fiveYearLockedNoDecimals',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'tenYearLockedNoDecimals',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct IStateRelayer.MasterNodeInformation',
+        name: '_masterNodeInformation',
+        type: 'tuple',
+      },
+    ],
+    name: 'updateMasterNodeInformation',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'noOfVaultsNoDecimals',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalLoanValue',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalCollateralValue',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'totalCollateralizationRatio',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'activeAuctionsNoDecimals',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct IStateRelayer.VaultGeneralInformation',
+        name: '_vaultInfo',
+        type: 'tuple',
+      },
+    ],
+    name: 'updateVaultGeneralInformation',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newImplementation',
+        type: 'address',
+      },
+    ],
+    name: 'upgradeTo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newImplementation',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes',
+        name: 'data',
+        type: 'bytes',
+      },
+    ],
+    name: 'upgradeToAndCall',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+]
+
+const ADDRESS = '0xa075dC93D00ac14f4a7416C03cAbec4728586760'
+const PROVIDER_URL = 'https://dmc01.mydefichain.com/mainnet'
+let provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
+
+const contract = new ethers.Contract(ADDRESS, abi, provider)
+
+contract
+  .connect(ADDRESS, provider)
+  .getDexPairInfo('dUSDT-DFI')
+  .then((dexPairInfo) => {
+    let primaryTokenPrice = dexPairInfo[1]['primaryTokenPrice']
+    let firstTokenBalance = dexPairInfo[1]['firstTokenBalance']
+    let secondTokenBalance = dexPairInfo[1]['secondTokenBalance']
+    if (primaryTokenPrice === 2n ** 256n - 1n) {
+      throw Error('Invalid price')
+    } else {
+      console.log(dexPairInfo)
+      console.log(firstTokenBalance / secondTokenBalance)
+      // other processing here
+    }
+  })

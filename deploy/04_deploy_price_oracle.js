@@ -9,13 +9,22 @@ module.exports = async ({
   const { deployer } = await getNamedAccounts()
 
   // Deploy DummyOracle with 1 DFI == 1 USD
-  const dummyOracle = await deploy('DummyOracle', {
+  // const dummyOracle = await deploy('DummyOracle', {
+  //   from: deployer,
+  //   args: [ethers.BigNumber.from('100000000')],
+  //   log: true,
+  // })
+  // oracleAddress = dummyOracle.address
+  // console.log('Using DummyOracle with address: ', oracleAddress)
+
+  const DFIDUSDOracle = await deploy('DFIUSDTOracle', {
     from: deployer,
-    args: [ethers.BigNumber.from('100000000')],
+    args: [deployer, '0xA6A853DDbfB6C85d3584E33313628555BA85753B'], //testnet State Relayer
     log: true,
   })
-  oracleAddress = dummyOracle.address
-  console.log('Using DummyOracle with address: ', oracleAddress)
+
+  oracleAddress = DFIDUSDOracle.address
+  console.log('Using DFIUSDTOracle with address: ', oracleAddress)
 
   // 1 character names = 5000 DFI
   // 2 character names = 2500 DFI

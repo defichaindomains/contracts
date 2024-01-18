@@ -31,7 +31,8 @@ async function main() {
   const controller = await getContract('ETHRegistrarController')
   const resolver = await getContract('PublicResolver')
   const stableOracle = await getContract('StablePriceOracle')
-  const dummyOracle = await getContract('DummyOracle')
+  // const dummyOracle = await getContract('DummyOracle')
+  const dfiOracle = await getContract('DFIUSDTOracle')
 
   console.log('Generating addresses.json file ...')
   const net =
@@ -48,7 +49,7 @@ async function main() {
           resolver: resolver.address,
           reverse: reverse.address,
           stableOracle: stableOracle.address,
-          dummyOracle: dummyOracle.address,
+          dfiOracle: dfiOracle.address,
         },
       },
       null,
