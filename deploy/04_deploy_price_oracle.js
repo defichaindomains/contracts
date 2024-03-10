@@ -19,7 +19,7 @@ module.exports = async ({
 
   const DFIDUSDOracle = await deploy('DFIUSDTOracle', {
     from: deployer,
-    args: [deployer, '0xA6A853DDbfB6C85d3584E33313628555BA85753B'], //testnet State Relayer
+    args: [deployer, '0xa075dC93D00ac14f4a7416C03cAbec4728586760'], //mainnet State Relayer Proxy
     log: true,
   })
 

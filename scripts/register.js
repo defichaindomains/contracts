@@ -20,16 +20,7 @@ function randomSecret() {
 }
 
 async function main() {
-  const reservedNames = [
-    'julian',
-    'stefano',
-    'uzyn',
-    'peddy',
-    'leonardo',
-    'apple',
-    'this',
-    'that',
-  ]
+  const reservedNames = ['stefano', 'leonardo']
 
   const minCommitmentAge = 60
   const maxCommitmentAge = 86400
@@ -53,7 +44,7 @@ async function main() {
 
   console.log('setting price to zero')
 
-  await stableOracle.setPrices([ethers.BigNumber.from('100000000000')])
+  await stableOracle.setPrices([ethers.BigNumber.from('100000')])
 
   console.log('setting the commitment age to 1 second')
 
@@ -66,6 +57,7 @@ async function main() {
       console.log('registering domain ', domainName, '.dfi')
 
       const salt = randomSecret()
+
       const commitment = await controller.makeCommitmentWithConfig(
         domainName,
         deployer,
@@ -74,7 +66,7 @@ async function main() {
         deployer,
       )
 
-      await controller.commit(commitment)
+      const commit = await controller.commit(commitment)
 
       const price = await controller.price(domainName)
 
@@ -93,7 +85,7 @@ async function main() {
       )
       console.log(domainName, '.dfi Domain registered successfully!')
     } catch (error) {
-      console.log('error registering domain ', domainName, '.dfi')
+      console.log('error registering domain ', reservedNames[index], '.dfi')
       console.log('error message: ', error)
     }
   }

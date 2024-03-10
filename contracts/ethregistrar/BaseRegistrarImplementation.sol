@@ -23,6 +23,11 @@ contract BaseRegistrarImplementation is ERC721Enumerable, BaseRegistrar {
     bytes4 private constant RECLAIM_ID =
         bytes4(keccak256("reclaim(uint256,address)"));
     string public baseURI;
+    // Array to keep track of all minted token IDs
+    uint256[] private _allTokenIds;
+
+    // Mapping from token ID to index in the _allTokenIds array
+    mapping(uint256 => uint256) private _allTokenIdsIndex;
 
     constructor(ENS _ens, bytes32 _baseNode) ERC721("", "") {
         ens = _ens;
@@ -98,6 +103,7 @@ contract BaseRegistrarImplementation is ERC721Enumerable, BaseRegistrar {
         require(available(id));
 
         _mint(owner, id);
+        _addTokenToAllTokenEnumeration(id);
         if (updateRegistry) {
             ens.setSubnodeOwner(baseNode, bytes32(id), owner);
         }
@@ -105,6 +111,11 @@ contract BaseRegistrarImplementation is ERC721Enumerable, BaseRegistrar {
         emit NameRegistered(id, owner);
     }
 
+function _addTokenToAllTokenEnumeration(uint256 tokenId) private {
+        _allTokenIdsIndex[tokenId] = _allTokenIds.length;
+        _allTokenIds.push(tokenId);
+    }
+    
     /**
      * @dev Reclaim ownership of a name in ENS, if you own it in the registrar.
      */
@@ -113,12 +124,9 @@ contract BaseRegistrarImplementation is ERC721Enumerable, BaseRegistrar {
         ens.setSubnodeOwner(baseNode, bytes32(id), owner);
     }
 
-    function supportsInterface(bytes4 interfaceID)
-        public
-        view
-        override(ERC721Enumerable, IERC165)
-        returns (bool)
-    {
+    function supportsInterface(
+        bytes4 interfaceID
+    ) public view override(ERC721Enumerable, IERC165) returns (bool) {
         return
             interfaceID == INTERFACE_META_ID ||
             interfaceID == ERC721_ID ||

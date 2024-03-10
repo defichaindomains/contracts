@@ -37,6 +37,13 @@ const accountKey = PRIVATE_KEY === '' ? '0x00' : '0x' + PRIVATE_KEY
 module.exports = {
   tld: TLD,
   networks: {
+    DMC: {
+      url: `https://dmc.mydefichain.com/mainnet`,
+      usdOracle: null,
+      chainId: 1130,
+      accounts: [accountKey],
+      tags: ['production'],
+    },
     DMC_testnet: {
       url: `https://eth.testnet.ocean.jellyfishsdk.com/`,
       usdOracle: null,
