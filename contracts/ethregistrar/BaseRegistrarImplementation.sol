@@ -114,6 +114,19 @@ contract BaseRegistrarImplementation is ERC721Enumerable, BaseRegistrar {
 function _addTokenToAllTokenEnumeration(uint256 tokenId) private {
         _allTokenIdsIndex[tokenId] = _allTokenIds.length;
         _allTokenIds.push(tokenId);
+
+        
+    }
+
+      // Override the _transfer function to update the registry on transfer
+    function _transfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override live {
+        super._transfer(from, to, tokenId);
+        // Update the registry with the new owner
+        ens.setSubnodeOwner(baseNode, bytes32(tokenId), to);
     }
     
     /**

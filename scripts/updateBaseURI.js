@@ -26,7 +26,7 @@ async function main() {
   console.log('Setting Base URI')
 
   await registrar.setBaseURI(
-    'https://metadata.defichain-domains.com/metachain/0x562F812346a7078B5304705cE65C48929E61050c/',
+    'https://metadata.defichain-domains.com/metachain/0x6F5D8377e0aB05341A00EA8c40a58622C1D365D2/',
   )
 
   console.log('Done!')
